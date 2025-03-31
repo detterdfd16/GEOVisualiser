@@ -12,8 +12,9 @@ def get_geo_datasets(pmids: list[int]) -> list[(int, list[int])]:
     geo_ids = []
     for pmid in pmids:
         url = (f'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?'
-               f'dbfrom=pubmed&db=gds&linkname=pubmed_gds&id={pmid}&retmode=xml'
-               f'&api_key={api_key}')
+               f'dbfrom=pubmed&db=gds&linkname=pubmed_gds&id={pmid}&retmode=xml')
+        if api_key:
+            url += f'&api_key={api_key}'
 
         response = requests.get(url)
 
@@ -36,8 +37,9 @@ def get_accession_ids(geo_idss: list[(int, list[int])]) -> list[(int, list[str])
     for (pmid, geo_ids) in geo_idss:
 
         url = (f'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?'
-               f'db=gds&id={','.join([str(geo_id) for geo_id in geo_ids])}&retmode=xml'
-               f'&api_key={api_key}')
+               f'db=gds&id={','.join([str(geo_id) for geo_id in geo_ids])}&retmode=xml')
+        if api_key:
+            url += f'&api_key={api_key}'
 
         response = requests.get(url)
         if response.status_code != 200:
@@ -101,8 +103,9 @@ def fetch_geo_essumary(geo_ids: list[(int, int)]) -> list[dict[str, str]]:
     api_key = os.getenv("NCBI_API_KEY")
 
     url = (f'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?'
-           f'db=gds&id={','.join([str(geo_id[1]) for geo_id in geo_ids])}&retmode=xml'
-           f'&api_key={api_key}')
+           f'db=gds&id={','.join([str(geo_id[1]) for geo_id in geo_ids])}&retmode=xml')
+    if api_key:
+        url += f'&api_key={api_key}'
 
     response = requests.get(url)
     if response.status_code != 200:

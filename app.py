@@ -9,8 +9,11 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():  # put application's code here
-    with open("PMIDs_list.txt") as f:
-        pmid_list = list(map(int, f.read().splitlines()))
+    try:
+        with open("PMIDs_list.txt") as f:
+            pmid_list = list(map(int, f.read().splitlines()))
+    except FileNotFoundError or FileExistsError:
+        pmid_list = []
 
     if request.method == 'POST':
         pmids = request.form["pmids"]
