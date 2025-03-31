@@ -42,3 +42,4 @@ Clusters are marked via same marker color, dotted lines between them represent d
    On the website you can fill "Enter PMID..." field to specify PMIDs for visualisation
 
    By default, PMIDs from `PMIDs_list.txt` are inserted in visualisation. You can clear PMIDs if needed
+![example_index_img](static/img.png)
